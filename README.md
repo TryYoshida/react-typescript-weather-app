@@ -1,5 +1,5 @@
 # 公開URL
-https://github.com/TryYoshida/react-typescript-weather-app
+https://admirable-starburst-5fcb2e.netlify.app/
 
 # Getting Started with Create React App
 
