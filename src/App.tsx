@@ -29,6 +29,9 @@ function App() {
     fetch(`https://api.weatherapi.com/v1/current.json?key=a24a9b728c8a409198d81312230605&q=${city}&aqi=no`)
     .then(res => res.json())
     .then(data => {
+      if('error' in data){
+        throw data.error;
+      }
       setResults({
         country: data.location.country,
         cityName: data.location.name,
@@ -38,7 +41,23 @@ function App() {
       });
       setCity('');
       setLoading(false);
-    }).catch(err => alert('エラーが発生しました。ページをリロードして、もう一度トライしてください。'));
+    }).catch(err => {
+      if(!('code' in err)){
+        alert('エラーが発生しました。ページをリロードして、もう一度トライしてください。')
+      } else {
+        switch (err.code){
+          case 1003:
+            alert('都市名を入力してください');
+            break;
+          case 1006:
+            alert('一致する都市が見つかりません');
+            break;
+          default:
+            alert(err.message);
+        }
+        setLoading(false);
+      }
+    });
   };
   return (
     <div className="wrapper">
